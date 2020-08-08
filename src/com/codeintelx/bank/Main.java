@@ -24,7 +24,7 @@ public class Main {
             }
             else if (accountType.equals(('s'))){
                 System.out.println("Hello "+ customerName +" you have selected to open a savings account");
-            };
+            }; // Programs needs help!
 
 
 
