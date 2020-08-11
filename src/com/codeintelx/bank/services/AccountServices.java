@@ -2,26 +2,32 @@ package com.codeintelx.bank.services;
 import com.codeintelx.bank.models.Account;
 
 import java.util.ArrayList;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 public class AccountServices {
-    private String customerName;
-    private double balance;
-    private ArrayList<Account> accounts;
 
+    Scanner scanner =new Scanner(System.in);
+    private List<Account> User= new ArrayList<>();
 
-    public AccountServices(String customerName, String accountType){
-        this.customerName=customerName;
+    public String createAccount(int accountID,String customerName,String accountType, double amount) {
 
-    this.accounts= new ArrayList<Account>();
-    }
-
-    public String getName() {
-        return customerName;
+        User.add(new Account(accountID, accountType,customerName,amount));
+return accountType;
     }
 
 
 
 
-}
+    }
+
+
+
+
+
+
+
 
 
 
