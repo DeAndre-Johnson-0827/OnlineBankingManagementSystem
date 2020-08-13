@@ -13,37 +13,56 @@ public class Account {
         this.balance=balance;
 
     }
+    public Account(){
+        this.customerName=customerName;
+        this.accountID=accountID;
+        this.accountType=accountType;
+        this.balance=balance;
+    }
+   public void withdraw(double withdrawAmount) {
+       System.out.println("Processing withdrawal...........");
+        if (balance-withdrawAmount<0) {
+            System.out.println("Withdrawal of $" + withdrawAmount + " can not be processed. ");
+        }else{
+            this.balance-=withdrawAmount;
+            System.out.println("we were able to process the withdrawal amount of $"+withdrawAmount+ "." +'\n'+
+                    "Remaining balance of $"+ this.balance);
+            }
+        }
 
 
-
-    public void deposit(double DepositedAmount){
-        this.balance+=DepositedAmount;
+   public void deposit(double depositedAmount) {
+        this.balance+=depositedAmount;
+   }
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void withdraw(double WithdrawalAmount){
-
-        if(this.balance-WithdrawalAmount<0){
-            System.out.println(WithdrawalAmount+" is more than you have in you current account");
-        }
-        else if(
-            this.balance-WithdrawalAmount>0){
-            System.out.println(WithdrawalAmount + " was processed you cureent balance is "+(this.balance-WithdrawalAmount));
-        }
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
     public String getAccountType() {
         return accountType;
     }
 
-    public int getAccountID() {
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
 
-   return accountID;}
+    public int getAccountID() {
+        return accountID;
+    }
+
+    public void setAccountID(int accountID) {
+        this.accountID = accountID;
+    }
 
     public double getBalance() {
         return balance;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 }

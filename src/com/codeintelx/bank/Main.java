@@ -10,57 +10,58 @@ public class Main {
 
     public static Scanner scanner=new Scanner(System.in);
     public static AccountServices c=new AccountServices();
-
+public static AccountServices d=new AccountServices();
     public static void main(String[] args) {
+boolean quit=false;
+       int option;
+        System.out.println("Welcome to Online Banking Management");
+printInstruction();
+       while(!quit){
 
-        //AccountServices c= new AccountServices();
+           System.out.println("Enter option");
+           option=scanner.nextInt();
+           scanner.nextLine();
+
+           switch(option){
+               case 1:
+                   createAccount1();
+                   break;
+
+               case 2:
+                   viewAccount();
+                   break;
+
+               case 3:
+                   withdraw();
+
+                   break;
+
+               case 4:
+                    deposit();
+                   break;
+               case 5:
+                    printInstruction();
+                   break;
+               case 6:
+                   quit=true;
+                   break;
 
 
-       /* HashMap map=new HashMap<String,Account>();
-map.put("keyString", new Account(new ));*/
-       System.out.println("1.) Create an account" +'\n'+
-                "2.) View an account" + '\n' +
-                "3.) Withdraw from account " + '\n' +
-               "4.) Deposit to an account"+'\n'+
-               "5.) Exit window."
-        );
-        int option=scanner.nextInt();
+           }
+       }
 
-while(option<1 || option >5){
-    System.out.println("Invalid Input");
-    option=scanner.nextInt();
+}
+public static void printInstruction(){
+    System.out.println("Press"+ '\n'+
+            "1- Create Account"+ '\n'+
+            "2-View Account"+ '\n'+
+            "3-Withdraw from an Account"+ '\n'+
+            "4-Deposit to an account" + '\n'+
+            "5-Display Options"+'\n'+
+            "6-QUIT");
 }
 
-        switch(option){
-            case 1:
-
-            createAccount1();
-         // Programs needs help!
-
-        break;
-    case 2:
-
-
-break;
-
-            case 3:
-
-
-break;
-    case 4:
-
-
-break;
-            case 5:
-
-
-
-
-
-
-
-}}
-public static void  createAccount1(){
+public static void createAccount1(){
     AccountServices c=new AccountServices();
      Scanner scanner=new Scanner(System.in);
         Random rand=new Random();
@@ -77,11 +78,11 @@ public static void  createAccount1(){
     AccountType=scanner.nextLine();
 
     if (AccountType.equals("checking")){
-        System.out.println("How much do you want to deposit into your checking account?");
+        System.out.println("Enter the amount you want to deposit into your checking account.");
         depositedAmount=scanner.nextDouble();
 
     }else if(AccountType.equals("saving")){
-        System.out.println("How much do you want to deposit into your saving account?");
+        System.out.println("Enter the amount you want to deposit into your saving account.");
         depositedAmount=scanner.nextDouble();
     }else{
         System.out.println( "Invalid Account");
@@ -89,7 +90,36 @@ public static void  createAccount1(){
 
 
 }
-     c.createAccount(AccountID, username, AccountType,depositedAmount );
-    String j =c.createAccount(AccountID,username,AccountType,depositedAmount);
-    System.out.println(j);
-}}
+     d.createAccount(AccountID, username, AccountType,depositedAmount );
+    System.out.println("Acount ID:"+AccountID);
+  //int j =c.createAccount(AccountID,username,AccountType,depositedAmount);
+   // System.out.println(j);
+}
+
+public static void viewAccount(){
+    Scanner scanner=new Scanner(System.in);
+        System.out.println("What the user's account ID?");
+        int accountID=scanner.nextInt();
+    d.viewAccount(accountID);
+
+
+}
+public static void withdraw(){
+        Scanner scanner=new Scanner(System.in);
+    System.out.println("Enter Account ID");
+       int AccountId=scanner.nextInt();
+        System.out.println("Enter the amount you want withdraw");
+       double withdrawal=scanner.nextDouble();
+        d.withdraw(AccountId,withdrawal);
+}
+public static void deposit(){
+        Scanner scanner= new Scanner(System.in);
+    System.out.println("Enter Account ID");
+    int AccountID=scanner.nextInt();
+
+    double deposit=scanner.nextDouble();
+    System.out.println("Enter the Amount you want to deposit");
+    d.deposit(AccountID,deposit);
+
+}
+}
