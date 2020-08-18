@@ -9,7 +9,7 @@ import java.util.Random;
 public class Main {
 
     public static Scanner scanner=new Scanner(System.in);
-    public static AccountServices c=new AccountServices();
+
 public static AccountServices d=new AccountServices();
     public static void main(String[] args) {
 boolean quit=false;
@@ -28,7 +28,8 @@ printInstruction();
                    break;
 
                case 2:
-                   viewAccount();
+                viewAccount();
+
                    break;
 
                case 3:
@@ -62,11 +63,8 @@ public static void printInstruction(){
 }
 
 public static void createAccount1(){
-    AccountServices c=new AccountServices();
+    AccountServices d=new AccountServices();
      Scanner scanner=new Scanner(System.in);
-        Random rand=new Random();
-    int AccountID = rand.nextInt(9999999);
-    AccountID+=1;
     double depositedAmount=0 ;
     String AccountType;
 
@@ -90,24 +88,32 @@ public static void createAccount1(){
 
 
 }
-     d.createAccount(AccountID, username, AccountType,depositedAmount );
-    System.out.println("Acount ID:"+AccountID);
-  //int j =c.createAccount(AccountID,username,AccountType,depositedAmount);
-   // System.out.println(j);
+     d.createAccount( AccountType, username ,depositedAmount );
+
 }
 
 public static void viewAccount(){
     Scanner scanner=new Scanner(System.in);
         System.out.println("What the user's account ID?");
-        int accountID=scanner.nextInt();
-    d.viewAccount(accountID);
+        String accountID=scanner.nextLine();
+        Account user=d.viewAccount(accountID);
+
+
+if(user==null){
+    System.out.println("Invalid Account Id");
+}else{
+    System.out.println(" Account ID:"+accountID+ '\n'+
+            "Customer Name:"+user.getCustomerName()+'\n'+
+            "Account Type "+ user.getAccountType()+'\n'+
+            " Balance: $"+user.getBalance());}
+
 
 
 }
 public static void withdraw(){
         Scanner scanner=new Scanner(System.in);
     System.out.println("Enter Account ID");
-       int AccountId=scanner.nextInt();
+       String AccountId=scanner.nextLine();
         System.out.println("Enter the amount you want withdraw");
        double withdrawal=scanner.nextDouble();
         d.withdraw(AccountId,withdrawal);
@@ -115,7 +121,7 @@ public static void withdraw(){
 public static void deposit(){
         Scanner scanner= new Scanner(System.in);
     System.out.println("Enter Account ID");
-    int AccountID=scanner.nextInt();
+    String AccountID=scanner.nextLine();
 
     double deposit=scanner.nextDouble();
     System.out.println("Enter the Amount you want to deposit");
