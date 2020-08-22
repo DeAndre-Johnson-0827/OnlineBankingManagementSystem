@@ -11,6 +11,7 @@ public class Main {
     public static Scanner scanner=new Scanner(System.in);
 
 public static AccountServices d=new AccountServices();
+public static Account user;
     public static void main(String[] args) {
 boolean quit=false;
        int option;
@@ -25,10 +26,18 @@ printInstruction();
            switch(option){
                case 1:
                    createAccount1();
+                  // Account user = new Account();
+
+           /*        System.out.println("Account ID:"+user.getAccountID()+'\n' +"Customer Name:"+user.getCustomerName()+'\n'
+                           +"Account Type: "+user.getAccountType()+ '\n'+
+                           "Balance: $"+user.getBalance());
+*/
                    break;
 
                case 2:
                 viewAccount();
+               // while(d.searchAccount(accountID))
+               // user.getCustomerName();
 
                    break;
 
@@ -47,6 +56,10 @@ printInstruction();
                    quit=true;
                    break;
 
+               case 0:
+                   closeAccount();
+                   break;
+
 
            }
        }
@@ -63,6 +76,8 @@ public static void printInstruction(){
 }
 
 public static void createAccount1(){
+       // Account accountInfo;
+
     AccountServices d=new AccountServices();
      Scanner scanner=new Scanner(System.in);
     double depositedAmount=0 ;
@@ -82,30 +97,39 @@ public static void createAccount1(){
     }else if(AccountType.equals("saving")){
         System.out.println("Enter the amount you want to deposit into your saving account.");
         depositedAmount=scanner.nextDouble();
+       // accountInfo = d.createAccount(AccountType, username, depositedAmount);
+       // System.out.println(accountInfo.getAccountID() + accountInfo.getCustomerName());
     }else{
         System.out.println( "Invalid Account");
 
 
 
+
 }
-     d.createAccount( AccountType, username ,depositedAmount );
+   // Account accountInfo;
+    user = d.createAccount(AccountType, username, depositedAmount);
+    // accountInfo=d.createAccount( AccountType, username ,depositedAmount );
+    System.out.println("Account ID:"+user.getAccountID()+'\n' +"Customer Name:"+user.getCustomerName()+'\n'
+                    +"Account Type: "+user.getAccountType()+ '\n'+
+            "Balance: $"+user.getBalance());
+
 
 }
 
 public static void viewAccount(){
     Scanner scanner=new Scanner(System.in);
-        System.out.println("What the user's account ID?");
+        System.out.println("What is the user's account ID?");
         String accountID=scanner.nextLine();
-        Account user=d.viewAccount(accountID);
+       d.viewAccount((accountID));
+        //{
+           // System.out.println("enter another");
+       // }
+    System.out.println(user.getCustomerName()+'\n'+
+            user.getAccountID()+'\n'+
+            user.getAccountType()+'\n'+
+            user.getBalance());
+    //System.out.println(user);
 
-
-if(user==null){
-    System.out.println("Invalid Account Id");
-}else{
-    System.out.println(" Account ID:"+accountID+ '\n'+
-            "Customer Name:"+user.getCustomerName()+'\n'+
-            "Account Type "+ user.getAccountType()+'\n'+
-            " Balance: $"+user.getBalance());}
 
 
 
@@ -121,11 +145,19 @@ public static void withdraw(){
 public static void deposit(){
         Scanner scanner= new Scanner(System.in);
     System.out.println("Enter Account ID");
-    String AccountID=scanner.nextLine();
+    String AccountId=scanner.nextLine();
 
     double deposit=scanner.nextDouble();
     System.out.println("Enter the Amount you want to deposit");
-    d.deposit(AccountID,deposit);
+    d.deposit(AccountId,deposit);
+
+}
+public static void closeAccount(){
+Scanner scanner= new Scanner(System.in);
+System.out.println("Enter the Account ID for the account that you want to close!");
+String AccountId =scanner.nextLine();
+d.closeAccount(AccountId);
+
 
 }
 }

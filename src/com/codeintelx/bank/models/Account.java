@@ -4,12 +4,12 @@ public class Account {
     private  String customerName;
     private  String accountType;
     private double balance;
-private int accountID;
-    public Account(String accountType, String customerName,double balance){
+    private String accountID;
+    public Account(String accountID, String accountType, String customerName,double balance){
         this.customerName=customerName;
         this.accountType=accountType;
         this.balance=balance;
-
+        this.accountID=accountID;
     }
     public Account(){
         this.customerName=customerName;
@@ -34,17 +34,13 @@ private int accountID;
         return accountType;
     }
 
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
-    }
 
-    public int getAccountID() {
+
+    public String getAccountID()
+    {
         return accountID;
-    }
+}
 
-    public void setAccountID(int accountID) {
-        this.accountID = accountID;
-    }
 
     public double getBalance() {
         return balance;
