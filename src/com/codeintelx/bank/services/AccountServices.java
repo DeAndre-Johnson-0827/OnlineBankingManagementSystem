@@ -1,6 +1,7 @@
 package com.codeintelx.bank.services;
 import com.codeintelx.bank.models.Account;
 
+import javax.security.auth.login.AccountNotFoundException;
 import java.util.*;
 
 import java.util.Map;
@@ -21,18 +22,21 @@ public class AccountServices {
 
      Account  accountInfo=(new Account(accountId, accountType, customerName, amount));
         User.put(accountId,accountInfo);
-
         return accountInfo;
     }
 
 
 
-    public Account searchAccount(String accountID) {
-
-            return User.get(accountID);
+    private Account searchAccount(String accountID) throws AccountNotFoundException {
 
 
-    }
+        Account user;
+
+        if (!User.containsKey(accountID)){
+
+    // throw new AccountNotFoundException();
+
+        }return User.get(accountID);}
 
     public void closeAccount(String accountID) {
         if (User.containsKey(accountID)) {
@@ -42,67 +46,48 @@ public class AccountServices {
 
 
 
+   public Account viewAccount(String accountID) throws AccountNotFoundException{
 
-  /*  public void printUserList(){
-        System.out.println("The User list has "+ User.size() + "amount of customers in the User list.");
-        searchAccount()
-    }*/
-   public Account viewAccount(String accountID){
-
-     // searchAccount(accountID);
-        return searchAccount(accountID);
-
-
-      /* System.out.println("Customer name:"+ User.get(accountID).getCustomerName());
-            System.out.println(" Account Type"+User.get(accountID).getAccountType());
-            System.out.println("Account ID: "+ User.get(accountID).getAccountID());
-            System.out.println("Balance $"+ User.get(accountID).getBalance());*/
-/*if (user==null){
-    System.out.println("Account Id does not exist");
-return null;
-}
-else{ System.out.println("Customer name:"+ User.get(accountID).getCustomerName());
-    System.out.println(" Account Type"+User.get(accountID).getAccountType());
-    System.out.println("Account ID: "+ User.get(accountID).getAccountID());
-    System.out.println("Balance $"+ User.get(accountID).getBalance());
-    return user;*/
+        return User.get(accountID);
 }
 
 
 
 
 
-  public void withdraw(String AccountID,double withdrawal) {
-      int index;
-
-      searchAccount(AccountID);
-
-      Double balance = User.get(AccountID).getBalance() - withdrawal;
-
-      if (balance >= 0) {
-          User.get(AccountID).setBalance(balance);
-          System.out.println(User.get(AccountID).getBalance());
-      } else
-          while (balance < 0) {
-              System.out.println("Is too much money");
+  public Account withdraw(String accountID,double withdrawal)throws AccountNotFoundException
+  {
+//double balance = User.get(accountID).getBalance() - withdrawal;
+      Account user;
+      user = searchAccount(accountID);
+      if (user != null) {
+          double balance = User.get(accountID).getBalance() - withdrawal;
+          if (balance >= 0) {
+              User.get(accountID).setBalance(balance);
+          } else {
+              throw new ArithmeticException();
           }
+
+      }
+      return user;
   }
 
 
-
-public void deposit(String AccountID,double depositedAmount) {
+public Account deposit(String AccountID,double depositedAmount) throws AccountNotFoundException {
     searchAccount(AccountID);
-           if(depositedAmount>0){
+    Account user;
+    user=searchAccount(AccountID);
+    if (user != null) {
+        if (depositedAmount > 0) {
+            Double balance = User.get(AccountID).getBalance() + depositedAmount;
+            User.get(AccountID).setBalance(balance);
+        } /*else {
+            throw new NegativeEntryNotAllowed();
 
-               Double balance = User.get(AccountID).getBalance() + depositedAmount;
-               User.get(AccountID).setBalance(balance);
-            System.out.println(User.get(AccountID).getBalance());  }
-           else{
-               System.out.println("invalid entry");
-           }
+        }*/
+    }
+    return user;
 }
-
-
 }
 
 

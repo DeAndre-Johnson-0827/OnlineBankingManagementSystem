@@ -2,6 +2,7 @@ package com.codeintelx.bank;
 import com.codeintelx.bank.models.Account;
 import com.codeintelx.bank.services.AccountServices;
 
+import javax.security.auth.login.AccountNotFoundException;
 import java.util.HashMap;
 import java.util.Scanner; //importing the scanner class
 import java.util.Random;
@@ -12,7 +13,9 @@ public class Main {
 
 public static AccountServices d=new AccountServices();
 public static Account user;
-    public static void main(String[] args) {
+String accountID;
+
+    public static void main(String[] args) throws AccountNotFoundException {
 boolean quit=false;
        int option;
         System.out.println("Welcome to Online Banking Management");
@@ -24,32 +27,22 @@ printInstruction();
            scanner.nextLine();
 
            switch(option){
-               case 1:
+               case 1: //Opens an account with the bank
                    createAccount1();
-                  // Account user = new Account();
-
-           /*        System.out.println("Account ID:"+user.getAccountID()+'\n' +"Customer Name:"+user.getCustomerName()+'\n'
-                           +"Account Type: "+user.getAccountType()+ '\n'+
-                           "Balance: $"+user.getBalance());
-*/
                    break;
 
-               case 2:
+               case 2:// Allows existing bank user to view banking information
                 viewAccount();
-               // while(d.searchAccount(accountID))
-               // user.getCustomerName();
-
                    break;
 
-               case 3:
+               case 3: //allows existing user to withdraw money from account
                    withdraw();
-
                    break;
 
-               case 4:
+               case 4:// allows existing user to deposit money to account.
                     deposit();
                    break;
-               case 5:
+               case 5://
                     printInstruction();
                    break;
                case 6:
@@ -67,6 +60,7 @@ printInstruction();
 }
 public static void printInstruction(){
     System.out.println("Press"+ '\n'+
+            "0-Close Account"+ '\n'+
             "1- Create Account"+ '\n'+
             "2-View Account"+ '\n'+
             "3-Withdraw from an Account"+ '\n'+
@@ -116,40 +110,46 @@ public static void createAccount1(){
 
 }
 
-public static void viewAccount(){
+public static void viewAccount() throws AccountNotFoundException {
     Scanner scanner=new Scanner(System.in);
-        System.out.println("What is the user's account ID?");
+    //String accountID=scanner.nextLine();
+    System.out.println("What is the user's account ID?");
         String accountID=scanner.nextLine();
        d.viewAccount((accountID));
-        //{
-           // System.out.println("enter another");
-       // }
-    System.out.println(user.getCustomerName()+'\n'+
-            user.getAccountID()+'\n'+
-            user.getAccountType()+'\n'+
-            user.getBalance());
+
+    System.out.println("Name :"+ user.getCustomerName()+'\n'+
+           "Account Identification:"+ user.getAccountID()+'\n'+
+           "Account Type :"+ user.getAccountType()+'\n'+
+            "Balance :$"+user.getBalance());
     //System.out.println(user);
 
 
 
 
 }
-public static void withdraw(){
-        Scanner scanner=new Scanner(System.in);
-    System.out.println("Enter Account ID");
-       String AccountId=scanner.nextLine();
+public static void withdraw() throws AccountNotFoundException {
+    try {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter Account ID");
+        String AccountId = scanner.nextLine();
         System.out.println("Enter the amount you want withdraw");
-       double withdrawal=scanner.nextDouble();
-        d.withdraw(AccountId,withdrawal);
+        double withdrawal = scanner.nextDouble();
+
+        user = d.withdraw(AccountId, withdrawal);
+        System.out.println(" $"+ user.getBalance());
+    } catch (Exception e) {
+        System.out.println("$" + user.getBalance());
+    }
+
 }
-public static void deposit(){
+public static void deposit()  {
         Scanner scanner= new Scanner(System.in);
     System.out.println("Enter Account ID");
     String AccountId=scanner.nextLine();
 
     double deposit=scanner.nextDouble();
     System.out.println("Enter the Amount you want to deposit");
-    d.deposit(AccountId,deposit);
+   // d.deposit(AccountId,deposit);
 
 }
 public static void closeAccount(){
