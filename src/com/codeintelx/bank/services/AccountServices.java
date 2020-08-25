@@ -1,93 +1,72 @@
 package com.codeintelx.bank.services;
-import com.codeintelx.bank.models.Account;
 
-import javax.security.auth.login.AccountNotFoundException;
-import java.util.*;
+import com.codeintelx.bank.exceptions.AccountNotFoundException;
+import com.codeintelx.bank.exceptions.InsufficientFundsException;
+import com.codeintelx.bank.models.Account;
 
 import java.util.Map;
 import java.util.HashMap;
 
 import java.util.UUID;
+
 public class AccountServices {
 
-    Scanner scanner = new Scanner(System.in);
-   //private List<Account> User = new ArrayList<>();
-
-   private Map <String,Account> User =new HashMap<>();
+    private  Map<String, Account> accounts = new HashMap<>();
 
     public Account createAccount(String accountType, String customerName, double amount) {
-        UUID uuid=UUID.randomUUID();
-        String accountId= Long.toString(uuid.getMostSignificantBits()).substring(1,11).replace("-"," ");
+        UUID uuid = UUID.randomUUID();
+        String accountId =
+                Long.toString(uuid.getMostSignificantBits()).substring(1, 11).replace("-", " ");
 
-
-     Account  accountInfo=(new Account(accountId, accountType, customerName, amount));
-        User.put(accountId,accountInfo);
+        Account accountInfo = new Account(accountId, accountType, customerName, amount);
+        accounts.put(accountId, accountInfo);
         return accountInfo;
     }
 
 
-
     private Account searchAccount(String accountID) throws AccountNotFoundException {
-
-
-        Account user;
-
-        if (!User.containsKey(accountID)){
-
-    // throw new AccountNotFoundException();
-
-        }return User.get(accountID);}
-
-    public void closeAccount(String accountID) {
-        if (User.containsKey(accountID)) {
-            User.remove(accountID);
+        if (!accounts.containsKey(accountID)) {
+            throw new AccountNotFoundException("Account number: " + accountID + " was not found. ");
         }
+        return accounts.get(accountID);
     }
 
+    public void closeAccount(String accountID) throws AccountNotFoundException {
+        Account account = searchAccount(accountID);
+        accounts.remove(account.getAccountID());
 
 
-   public Account viewAccount(String accountID) throws AccountNotFoundException{
+    }
 
-        return User.get(accountID);
-}
+    public Account viewAccount(String accountID) throws AccountNotFoundException {
+        return searchAccount(accountID);
 
+    }
 
+    public Account withdraw(String accountID, double withdrawal) throws AccountNotFoundException,
+            InsufficientFundsException {
 
+        Account userAccount = searchAccount(accountID);
 
+        double balance = userAccount.getBalance() - withdrawal;
+        if (balance >= 0) {
+            userAccount.setBalance(balance);
+        } else {
+            throw new InsufficientFundsException("The account you want to withdraw from only has " +
+                    userAccount.getBalance());
+        }
 
-  public Account withdraw(String accountID,double withdrawal)throws AccountNotFoundException
-  {
-//double balance = User.get(accountID).getBalance() - withdrawal;
-      Account user;
-      user = searchAccount(accountID);
-      if (user != null) {
-          double balance = User.get(accountID).getBalance() - withdrawal;
-          if (balance >= 0) {
-              User.get(accountID).setBalance(balance);
-          } else {
-              throw new ArithmeticException();
-          }
+        return userAccount;
+    }
 
-      }
-      return user;
-  }
-
-
-public Account deposit(String AccountID,double depositedAmount) throws AccountNotFoundException {
-    searchAccount(AccountID);
-    Account user;
-    user=searchAccount(AccountID);
-    if (user != null) {
+    public Account deposit(String accountID, double depositedAmount) throws AccountNotFoundException {
+        Account userAccount = searchAccount(accountID);
         if (depositedAmount > 0) {
-            Double balance = User.get(AccountID).getBalance() + depositedAmount;
-            User.get(AccountID).setBalance(balance);
-        } /*else {
-            throw new NegativeEntryNotAllowed();
-
-        }*/
+            double balance = userAccount.getBalance() + depositedAmount;
+            userAccount.setBalance(balance);
+        }
+        return userAccount;
     }
-    return user;
-}
 }
 
 
