@@ -4,6 +4,7 @@ import com.codeintelx.bank.exceptions.AccountNotFoundException;
 import com.codeintelx.bank.exceptions.InsufficientFundsException;
 import com.codeintelx.bank.models.Account;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -11,7 +12,7 @@ import java.util.UUID;
 
 public class AccountServices {
 
-    private  Map<String, Account> accounts = new HashMap<>();
+    private final Map<String, Account> accounts = new HashMap<>();
 
     public Account createAccount(String accountType, String customerName, double amount) {
         UUID uuid = UUID.randomUUID();
@@ -24,12 +25,13 @@ public class AccountServices {
     }
 
 
-    private Account searchAccount(String accountID) throws AccountNotFoundException {
+    public Account searchAccount(String accountID) throws AccountNotFoundException {
         if (!accounts.containsKey(accountID)) {
             throw new AccountNotFoundException("Account number: " + accountID + " was not found. ");
         }
         return accounts.get(accountID);
     }
+
 
     public void closeAccount(String accountID) throws AccountNotFoundException {
         Account account = searchAccount(accountID);
@@ -40,7 +42,6 @@ public class AccountServices {
 
     public Account viewAccount(String accountID) throws AccountNotFoundException {
         return searchAccount(accountID);
-
     }
 
     public Account withdraw(String accountID, double withdrawal) throws AccountNotFoundException,
@@ -66,6 +67,12 @@ public class AccountServices {
             userAccount.setBalance(balance);
         }
         return userAccount;
+    }
+
+    public Map<String, Account> viewAllAccounts() {
+
+
+        return accounts;
     }
 }
 
