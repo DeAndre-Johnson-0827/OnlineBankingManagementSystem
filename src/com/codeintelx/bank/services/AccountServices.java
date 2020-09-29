@@ -4,7 +4,7 @@ import com.codeintelx.bank.exceptions.AccountNotFoundException;
 import com.codeintelx.bank.exceptions.InsufficientFundsException;
 import com.codeintelx.bank.models.Account;
 
-import java.util.Iterator;
+//import java.util.Iterator;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -18,6 +18,8 @@ public class AccountServices {
         UUID uuid = UUID.randomUUID();
         String accountId =
                 Long.toString(uuid.getMostSignificantBits()).substring(1, 11).replace("-", " ");
+
+
 
         Account accountInfo = new Account(accountId, accountType, customerName, amount);
         accounts.put(accountId, accountInfo);

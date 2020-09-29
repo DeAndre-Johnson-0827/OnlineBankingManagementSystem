@@ -44,10 +44,12 @@ public class Main {
 
                     } else {
                         System.out.println("Invalid Account");
+
                     }
 
-                    accountServices.createAccount(accountType, username, depositedAmount);
-                    // createAccount1();
+                    user=accountServices.createAccount(accountType, username, depositedAmount);
+                    System.out.println("Welcome "+user.getCustomerName() + " you've created a "+user.getAccountType()+"s account."+'\n'+
+                            "Thank you for opening the account "+ user.getAccountID() + " with balance of $"+ user.getBalance());
                     break;
 
                 case 2:// Allows existing bank user to view banking information
@@ -118,10 +120,6 @@ public class Main {
     }
 
 
-
-
-
-
     public static void viewAccount() throws AccountNotFoundException, com.codeintelx.bank.exceptions.AccountNotFoundException {
         Scanner scanner = new Scanner(System.in);
 
@@ -158,10 +156,12 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter Account ID");
         String AccountId = scanner.nextLine();
-
-        double deposit = scanner.nextDouble();
         System.out.println("Enter the Amount you want to deposit");
+        double deposit = scanner.nextDouble();
+
         accountServices.deposit(AccountId, deposit);
+        System.out.println(" $" + user.getBalance());
+
 
     }
 
